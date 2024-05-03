@@ -75,4 +75,5 @@ public class Constants {
 
     public static final String KAFKA_SERVER = "localhost:9092";
 
+    public static final String RECEIVED_MESSAGE_IN_GROUP = "Received message in group - ";
 }

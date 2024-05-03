@@ -12,9 +12,25 @@ import org.springframework.kafka.core.ProducerFactory;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * <p>
+ * Configuration class for creating Kafka producer-related beans.
+ * This class defines beans for configuring Kafka producer properties
+ * and setting up the KafkaTemplate for producing messages to Kafka topics.
+ * </p>
+ *
+ * @author Shunmugavel - created on April 09, 2024
+ */
 @Configuration
 public class KafkaProducerConfig {
 
+    /**
+     * <p>
+     * Creates and configures a Kafka ProducerFactory bean.
+     * </p>
+     *
+     * @return The configured ProducerFactory bean.
+     */
     @Bean
     public ProducerFactory<String, String> producerFactory() {
         Map<String, Object> properties = new HashMap<>();
@@ -24,6 +40,13 @@ public class KafkaProducerConfig {
         return new DefaultKafkaProducerFactory<>(properties);
     }
 
+    /**
+     * <p>
+     * Creates and configures a KafkaTemplate bean.
+     * </p>
+     *
+     * @return The configured KafkaTemplate bean.
+     */
     @Bean
     public KafkaTemplate<String, String> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());

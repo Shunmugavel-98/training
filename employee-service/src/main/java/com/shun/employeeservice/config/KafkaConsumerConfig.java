@@ -13,10 +13,26 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * <p>
+ * Configuration class for creating Kafka consumer-related beans.
+ * This class defines beans for configuring Kafka consumer properties
+ * and setting up the Kafka message listener container factory.
+ * </p>
+ *
+ * @author Shunmugavel - created on April 09, 2024
+ */
 @EnableKafka
 @Configuration
 public class KafkaConsumerConfig {
 
+    /**
+     * <p>
+     * Creates and configures a Kafka ConsumerFactory bean.
+     * </p>
+     *
+     * @return The configured ConsumerFactory bean.
+     */
     @Bean
     public ConsumerFactory<String, String> consumerFactory() {
         Map<String, Object> properties = new HashMap<>();
@@ -27,6 +43,13 @@ public class KafkaConsumerConfig {
         return new DefaultKafkaConsumerFactory<>(properties);
     }
 
+    /**
+     * <p>
+     * Creates and configures a ConcurrentKafkaListenerContainerFactory bean.
+     * </p>
+     *
+     * @return The configured ConcurrentKafkaListenerContainerFactory bean.
+     */
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, String>
