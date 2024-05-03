@@ -45,20 +45,6 @@ public class GlobalExceptionHandler {
 
     /**
      * <p>
-     * Handles the InternalException and returns a GenericResponse with the exception message and
-     * HttpStatus.INTERNAL_SERVER_ERROR status.
-     * </p>
-     *
-     * @param exception The InternalException that was thrown
-     * @return GenericResponse with the exception message and HttpStatus.INTERNAL_SERVER_ERROR status
-     */
-    @ExceptionHandler({InternalException.class})
-    public GenericResponse<Object> handleInternalException(InternalException exception) {
-        return new GenericResponse<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    /**
-     * <p>
      * Handles the RuntimeException and returns a GenericResponse with the exception message and
      * HttpStatus.INTERNAL_SERVER_ERROR status.
      * </p>
@@ -67,7 +53,7 @@ public class GlobalExceptionHandler {
      * @return GenericResponse with the exception message and HttpStatus.INTERNAL_SERVER_ERROR status
      */
     @ExceptionHandler({RuntimeException.class})
-    public GenericResponse<Object> handleInternalException(RuntimeException exception) {
+    public GenericResponse<Object> handleRuntimeException(RuntimeException exception) {
         return new GenericResponse<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

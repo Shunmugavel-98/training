@@ -93,6 +93,8 @@ public class LoginServiceImpl implements LoginService {
         LoginResponse loginResponse = new LoginResponse();
         User user = userRepository.findByEmailIdAndIsActiveTrue(loginRequestDto.getEmailId());
         if (null != user) {
+            loginResponse.setUserId(user.getId());
+            loginResponse.setUserName(user.getName());
             LocalDateTime currentTime = LocalDateTime.now();
             LocalDateTime retryAt = user.getRetryPeriod();
             // retry login can be attempted or not

@@ -1,9 +1,6 @@
 package com.shun.notificationservice.model.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * <p>
@@ -12,10 +9,7 @@ import lombok.Setter;
  *
  * @author Shunmugavel - created on April 09, 2024
  */
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 public class VerificationRequestDto {
 
     private String recipientEmailId;

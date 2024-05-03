@@ -2,7 +2,6 @@ package com.shun.employeeservice.service.impl;
 
 import com.shun.employeeservice.common.Constants;
 import com.shun.employeeservice.exception.EmployeeNotFoundException;
-import com.shun.employeeservice.exception.InternalException;
 import com.shun.employeeservice.model.dto.EmployeeDto;
 import com.shun.employeeservice.model.entity.Employee;
 import com.shun.employeeservice.repository.EmployeeRepository;

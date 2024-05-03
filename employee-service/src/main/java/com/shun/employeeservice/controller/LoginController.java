@@ -41,8 +41,7 @@ public class LoginController {
         SignUpResponseDto response = loginService.signUp(signUpRequestDto);
         if (response.getMessage().equals(Constants.EMAIL_ALREADY_EXISTS)) {
             return new GenericResponse<>(Constants.EMAIL_ALREADY_EXISTS, HttpStatus.NOT_ACCEPTABLE);
-        }
-        if (response.getMessage().equals(Constants.USER_CREATION_FAILED)) {
+        } else if (response.getMessage().equals(Constants.USER_CREATION_FAILED)) {
             return new GenericResponse<>(Constants.USER_CREATION_FAILED, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new GenericResponse<>(Constants.VERIFICATION_MESSAGE, HttpStatus.OK);
@@ -59,15 +58,13 @@ public class LoginController {
     @PostMapping("/login")
     public GenericResponse<LoginResponse> login(@RequestBody LoginRequestDto loginRequestDto) {
         LoginResponse loginResponse = loginService.login(loginRequestDto);
-        if (loginResponse.getMessage().equals(Constants.INVALID_CREDENTIALS_OR_USER_NOT_ACTIVE)) {
-            return new GenericResponse<>(loginResponse, Constants.INVALID_CREDENTIALS_OR_USER_NOT_ACTIVE, HttpStatus.UNAUTHORIZED);
-        }
-        if (loginResponse.getMessage().equals(Constants.RETRY_LATER)) {
-            return new GenericResponse<>(loginResponse, Constants.RETRY_LATER, HttpStatus.UNAUTHORIZED);
-        }
-        if (loginResponse.getMessage().equals(Constants.LOGIN_SUCCESS)) {
-            return new GenericResponse<>(loginResponse, Constants.FETCH_STATUS, HttpStatus.OK);
-        }
-        return new GenericResponse<>(loginResponse, loginResponse.getMessage(), HttpStatus.UNAUTHORIZED);
+        return switch (loginResponse.getMessage()) {
+            case Constants.INVALID_CREDENTIALS_OR_USER_NOT_ACTIVE ->
+                    new GenericResponse<>(loginResponse, Constants.INVALID_CREDENTIALS_OR_USER_NOT_ACTIVE, HttpStatus.UNAUTHORIZED);
+            case Constants.RETRY_LATER ->
+                    new GenericResponse<>(loginResponse, Constants.RETRY_LATER, HttpStatus.UNAUTHORIZED);
+            case Constants.LOGIN_SUCCESS -> new GenericResponse<>(loginResponse, Constants.FETCH_STATUS, HttpStatus.OK);
+            default -> new GenericResponse<>(loginResponse, loginResponse.getMessage(), HttpStatus.UNAUTHORIZED);
+        };
     }
 }

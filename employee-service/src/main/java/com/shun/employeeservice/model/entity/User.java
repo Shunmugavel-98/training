@@ -1,6 +1,7 @@
 package com.shun.employeeservice.model.entity;
 
 import com.shun.employeeservice.common.Constants;
+import com.shun.employeeservice.common.TableConstants;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,50 +23,50 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Data
-@Table(name = "\"user\"")
+@Table(name = TableConstants.USER)
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = TableConstants.NAME)
     private String name;
 
-    @Column(name = "password")
+    @Column(name = TableConstants.PASSWORD)
     private String password;
 
-    @Column(name = "email_id")
+    @Column(name = TableConstants.EMAIL_ID)
     private String emailId;
 
-    @Column(name = "phone")
+    @Column(name = TableConstants.PHONE)
     private String phone;
 
-    @Column(name = "is_active")
+    @Column(name = TableConstants.IS_ACTIVE)
     private Boolean isActive;
 
-    @Column(name = "user_type")
+    @Column(name = TableConstants.USER_TYPE)
     private String userType;
 
-    @Column(name = "incorrect_login_attempts")
+    @Column(name = TableConstants.INCORRECT_LOGIN_ATTEMPTS)
     private Integer incorrectLoginAttempts;
 
-    @Column(name = "retry_period")
+    @Column(name = TableConstants.RETRY_PERIOD)
     private LocalDateTime retryPeriod;
 
-    @Column(name = "created_at")
+    @Column(name = TableConstants.CREATED_AT)
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at")
+    @Column(name = TableConstants.UPDATED_AT)
     private LocalDateTime updatedAt;
 
-    @Column(name = "created_by")
+    @Column(name = TableConstants.CREATED_BY)
     private Long createdBy;
 
-    @Column(name = "updated_by")
+    @Column(name = TableConstants.UPDATED_BY)
     private Long updatedBy;
 
-    @Column(name = "verificationCode", length = Constants.VERIFICATION_CODE_LENGTH)
+    @Column(name = TableConstants.VERIFICATION_CODE, length = Constants.VERIFICATION_CODE_LENGTH)
     private String verificationCode;
 
     @PrePersist

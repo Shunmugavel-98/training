@@ -1,5 +1,6 @@
 package com.shun.employeeservice.common;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -11,23 +12,9 @@ import lombok.Data;
  * @author Shunmugavel - created on April 09, 2024
  */
 @Data
+@AllArgsConstructor
 public class GenericMessage<T> {
     private String message;
     private Object data;
     private Integer statusCode;
-
-    /**
-     * <p>
-     * Constructs a new GenericMessage with the specified message, data, and status code.
-     * </p>
-     *
-     * @param message the message content
-     * @param data the additional data
-     * @param statusCode the status code
-     */
-    public GenericMessage(String message, Object data, Integer statusCode) {
-        this.statusCode = statusCode;
-        this.message = message;
-        this.data = data;
-    }
 }

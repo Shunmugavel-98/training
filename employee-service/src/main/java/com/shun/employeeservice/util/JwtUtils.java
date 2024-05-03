@@ -1,10 +1,8 @@
 package com.shun.employeeservice.util;
 
 import com.shun.employeeservice.common.Constants;
-import com.shun.employeeservice.exception.AccessDeniedException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
@@ -55,12 +53,8 @@ public class JwtUtils {
      * Throws AccessDeniedException if verification fails.
      * @param authorization the JWT token to verify
      */
-    public void verify(String authorization) {
-        try {
-            Jwts.parser().setSigningKey(secretKey).build().parseClaimsJws(authorization);
-        } catch (Exception ex) {
-            throw new AccessDeniedException(Constants.ACCESS_DENIED);
-        }
+    public void verify(String authorization) throws RuntimeException {
+        Jwts.parser().setSigningKey(secretKey).build().parseClaimsJws(authorization);
     }
 
     /**
@@ -72,7 +66,7 @@ public class JwtUtils {
      * @param authorization the JWT token to verify
      * @return Claims the parsed jwt info
      */
-    public Claims parseJwt(String authorization) throws RuntimeException {
+    public Claims parseJwt(String authorization) {
         return Jwts.parser().setSigningKey(secretKey).build().parseClaimsJws(authorization).getBody();
     }
 }

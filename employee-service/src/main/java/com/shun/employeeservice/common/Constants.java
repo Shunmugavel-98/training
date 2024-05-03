@@ -69,4 +69,10 @@ public class Constants {
 
     public static final String ROLE = "role";
 
+    public static final String TOPIC_NAME = "test";
+
+    public static final String KAFKA_CONSUMER_GROUP = "my_group";
+
+    public static final String KAFKA_SERVER = "localhost:9092";
+
 }

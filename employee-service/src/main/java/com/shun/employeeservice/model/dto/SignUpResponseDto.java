@@ -2,9 +2,7 @@ package com.shun.employeeservice.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.NonNull;
 
 /**
  * <p>
@@ -14,7 +12,7 @@ import lombok.Setter;
  * @author Shunmugavel - created on April 09, 2024
  */
 @Data
-@AllArgsConstructor
 public class SignUpResponseDto {
+    @NonNull
     private String message;
 }

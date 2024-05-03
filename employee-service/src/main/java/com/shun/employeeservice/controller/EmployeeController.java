@@ -3,12 +3,12 @@ package com.shun.employeeservice.controller;
 import com.shun.employeeservice.common.Constants;
 import com.shun.employeeservice.common.GenericResponse;
 import com.shun.employeeservice.exception.AccessDeniedException;
+import com.shun.employeeservice.kafka.KafkaProducer;
 import com.shun.employeeservice.model.dto.EmployeeDto;
 import com.shun.employeeservice.model.entity.Employee;
 import com.shun.employeeservice.service.EmployeeService;
 import com.shun.employeeservice.util.JwtUtils;
 import io.jsonwebtoken.Claims;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.management.relation.RoleNotFoundException;
 import java.util.List;
 
 /**
@@ -41,6 +40,9 @@ public class EmployeeController {
     @Autowired
     JwtUtils jwtUtils;
 
+    @Autowired
+    private KafkaProducer kafkaProducer;
+
     /**
      * <p>
      * Create a new employee.
@@ -52,6 +54,7 @@ public class EmployeeController {
     @PostMapping
     public GenericResponse<EmployeeDto> createEmployee(@RequestBody EmployeeDto employeeDetails) {
         EmployeeDto employeeDto = employeeService.createEmployee(employeeDetails);
+        kafkaProducer.sendMessage(Constants.CREATED_STATUS);
         return new GenericResponse<>(employeeDto, Constants.CREATED_STATUS, HttpStatus.CREATED);
     }
 
@@ -66,6 +69,7 @@ public class EmployeeController {
     @GetMapping("{id}")
     public GenericResponse<EmployeeDto> getEmployeeById(@PathVariable long id) {
         EmployeeDto employeeDto = employeeService.findById(id);
+        kafkaProducer.sendMessage(Constants.FETCH_STATUS);
         return new GenericResponse<>(employeeDto, Constants.FETCH_STATUS, HttpStatus.OK);
     }
 
@@ -80,6 +84,7 @@ public class EmployeeController {
     @PutMapping
     public GenericResponse<Employee> updateEmployee(@RequestBody EmployeeDto employeeDetails) {
         EmployeeDto employeeDto = employeeService.updateEmployee(employeeDetails);
+        kafkaProducer.sendMessage(Constants.UPDATE_STATUS);
         return new GenericResponse<>(employeeDto, Constants.UPDATE_STATUS, HttpStatus.OK);
     }
 
@@ -94,6 +99,7 @@ public class EmployeeController {
     @DeleteMapping("{id}")
     public GenericResponse<String> deleteEmployee(@PathVariable long id) {
         String status = employeeService.deleteEmployee(id);
+        kafkaProducer.sendMessage(Constants.DELETE_STATUS);
         return new GenericResponse<>(status, HttpStatus.OK);
     }
 
@@ -105,13 +111,15 @@ public class EmployeeController {
      * @return GenericResponse containing a list of all employees
      */
     @GetMapping
-    public GenericResponse<List<EmployeeDto>> getAllEmployees(@RequestHeader("Authorization") String authorization) throws RuntimeException {
+    public GenericResponse<List<EmployeeDto>> getAllEmployees(@RequestHeader("Authorization") String authorization) {
         Claims claims = jwtUtils.parseJwt(authorization);
         if (claims.get(Constants.ROLE, String.class).equals(Constants.USER_TYPE_NORMAL)) {
             List<EmployeeDto> employeeList = employeeService.getAllEmployees();
+            kafkaProducer.sendMessage(Constants.FETCH_STATUS);
             return new GenericResponse<>(employeeList, Constants.FETCH_STATUS, HttpStatus.OK);
         } else {
-            throw new AccessDeniedException("Access Denied. User does not have required role");
+            kafkaProducer.sendMessage(Constants.ACCESS_DENIED);
+            throw new AccessDeniedException(Constants.ACCESS_DENIED);
         }
     }
 }

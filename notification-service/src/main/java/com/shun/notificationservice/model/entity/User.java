@@ -9,10 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
@@ -24,11 +21,8 @@ import java.time.LocalDateTime;
  * @author Shunmugavel - created on April 09, 2024
  */
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-@Table(name = "user")
+@Data
+@Table(name = "\"user\"")
 public class User {
 
     @Id
